@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Libreria.DataAccess.Services
 {
-    public class LibriService
+    public class LibriService : ILibriService
     {
         private readonly LibreriaContext _libreriaContext;
         public LibriService(LibreriaContext libreriaContext)
         {
             _libreriaContext = libreriaContext;
         }
-        public async Task <List<Libro>>GetLibro()
+        public async Task<List<Libro>> GetLibro()
         {
             try
             {
