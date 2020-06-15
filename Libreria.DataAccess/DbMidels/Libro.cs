@@ -13,7 +13,7 @@ namespace Libreria.DataAccess.DbMidels
         public int LibreriaId { get; set; }
         public DateTime AnnoPub { get; set; }
         public decimal Prezzo { get; set; }
-        public int Sconto { get; set; }
+        public int? Sconto { get; set; }
         public virtual Libreriaa Libreria { get; set; }
         public virtual  List<LibroAutore>LibroAutores  { get; set; }
     }
