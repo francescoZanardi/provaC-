@@ -10,5 +10,7 @@ namespace Libreria.DataAccess.Services
         Task<Libro> GetLibro(int id);
         Task<Libro> GetLibroByTitolo(string titolo);
         Task<Libreriaa> Check(string nome, string luogo);
+        Task<Autore> CheckAutore(string nome, string cognome);
+        Task<bool> AddLibroToDb(Libro libro);
     }
 }

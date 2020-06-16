@@ -76,5 +76,34 @@ namespace Libreria.DataAccess.Services
 
             }
         }
+        public async Task<Autore> CheckAutore(string nome, string cognome)
+        {
+            var res = await _libreriaContext.Autore.FirstOrDefaultAsync(x => x.Nome.Trim().ToLower() == nome.Trim().ToLower() && x.Cognome.Trim().ToLower() == cognome.Trim().ToLower());
+            if (res != null )
+            {
+                return res;
+            }
+            else
+            {
+                var insert = new Autore();
+                insert.Nome = nome;
+                insert.Cognome = cognome;
+                _libreriaContext.Autore.Add(insert);
+                await _libreriaContext.SaveChangesAsync();
+                return await _libreriaContext.Autore.FirstOrDefaultAsync(x => x.Nome == insert.Nome && x.Cognome == insert.Cognome);
+
+            }
+        }
+        public async Task<bool> AddLibroToDb(Libro libro) 
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
