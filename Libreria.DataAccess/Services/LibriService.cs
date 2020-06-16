@@ -155,6 +155,24 @@ namespace Libreria.DataAccess.Services
                 return false;
             }
         }
-
+        public async Task<bool> DelateLibro(int LibroId)
+        {
+            try
+            {
+                var toDel = await _libreriaContext.Libro.Include(x=>x.LibroAutores).FirstOrDefaultAsync(x=>x.LibroId == LibroId);
+                if (toDel != null)
+                {
+                    _libreriaContext.Remove(toDel);
+                    await _libreriaContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
     }
 }
