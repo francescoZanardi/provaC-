@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,5 +109,52 @@ namespace Libreria.DataAccess.Services
                 return 0;
             }
         }
+        public async Task<bool> UpdateLibro(Libro libro)
+        {
+            try
+            {
+                var ismod = false;
+                var tomod = _libreriaContext.Libro.FirstOrDefault(x=>x.LibroId == libro.LibroId);
+                if (tomod != null)
+                {
+                    if (tomod.Titolo != libro.Titolo)
+                    {
+                        tomod.Titolo = libro.Titolo;
+                        ismod = true;
+                    }
+                    if (tomod.LibreriaId != libro.LibreriaId)
+                    {
+                        tomod.LibreriaId = libro.LibreriaId;
+                        ismod = true;
+                    }
+                    if (tomod.AnnoPub != libro.AnnoPub)
+                    {
+                        tomod.AnnoPub = libro.AnnoPub;
+                        ismod = true;
+                    }
+                    if (tomod.Prezzo != libro.Prezzo)
+                    {
+                        tomod.Prezzo = libro.Prezzo;
+                        ismod = true;
+                    }
+                    if (tomod.Sconto != libro.Sconto)
+                    {
+                        tomod.Sconto = libro.Sconto;
+                        ismod = true;
+                    }
+                    if (ismod)
+                    {
+                        _libreriaContext.Update(tomod);
+                        await _libreriaContext.SaveChangesAsync();
+                    }
+                }
+                return ismod;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

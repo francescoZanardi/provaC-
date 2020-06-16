@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Libreria.Core;
+using Libreria.DataAccess.DbMidels;
 using Libreria.DataAccess.Services;
 using Libreria.Dto;
 using Microsoft.AspNetCore.Http;
@@ -85,8 +86,25 @@ namespace Libreria.Controllers
 
         // PUT: api/Libro/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Libro libro)
         {
+            try
+            {
+                libro.LibroId = id;
+                var res = await _libriService.UpdateLibro(libro);
+                if (res)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, null);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
