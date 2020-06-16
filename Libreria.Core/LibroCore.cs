@@ -14,9 +14,9 @@ namespace Libreria.Core
         {
             _libriService = libriService;
         }
-        public async Task<RequestLibro> PostLibro(RequestLibro requestLibro)
+        public async Task<int> PostLibro(RequestLibro requestLibro)
         {
-            var esisteLibro = _libriService.GetLibroByTitolo(requestLibro.Titolo);
+            var esisteLibro = await _libriService.GetLibroByTitolo(requestLibro.Titolo);
             if (esisteLibro == null)
             {
                 var DaInserire = new Libro();
@@ -31,16 +31,16 @@ namespace Libreria.Core
                 tmp.Libro = DaInserire;
                 DaInserire.LibroAutores.Add(tmp);
                 var insert = await _libriService.AddLibroToDb(DaInserire);
-                if (insert)
+                if (insert != 0)
                 {
-                    return requestLibro;
+                    return insert;
                 }
                 else
                 {
-                    return null;
+                    return 0;
                 }
             }
-            return null;
+            return 0;
         }
     }
 }

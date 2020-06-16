@@ -94,15 +94,18 @@ namespace Libreria.DataAccess.Services
 
             }
         }
-        public async Task<bool> AddLibroToDb(Libro libro) 
+        public async Task<int> AddLibroToDb(Libro libro) 
         {
             try
             {
-                return true;
+                _libreriaContext.Libro.Add(libro);
+                await _libreriaContext.SaveChangesAsync();
+                var res =  await _libreriaContext.Libro.FirstOrDefaultAsync(x=>x.Titolo.Trim().ToLower() == libro.Titolo.ToLower().Trim());
+                return res.LibroId;
             }
             catch (Exception)
             {
-                return false;
+                return 0;
             }
         }
     }
